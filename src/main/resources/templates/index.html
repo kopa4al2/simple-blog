@@ -1,16 +1,29 @@
 <!DOCTYPE HTML>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
-<!--<head th:include="fragments/head" th:with="pageTitle='Softuni Blog'"></head>-->
+<head th:include="fragments/head" th:with="pageTitle='Program'"></head>
 
 <body>
-<h1 class="jumbotron">My Website</h1>
-<!--<header th:include="fragments/header"></header>-->
 
-<!--<main th:include="${view}"></main>-->
+<header th:include="fragments/header"></header>
+<div class="row text-center">
+    <div class="col-lg-6">
+        <form th:action="@{/}" method="post">
+            <label for="first_name">First name</label>
+            <input id="first_name" type="text" name="firstName"/>
+            <label for="last_name">Last name</label>
+            <input id="last_name" type="text" name="lastName"/>
+            <input type="submit" value="Submit"/>
+        </form>
+    </div>
+    <div class="col-lg-6">
+        <main th:include="${view}"></main>
+    </div>
+</div>
 
 <!--<footer th:include="fragments/footer"></footer>-->
-
+<!---->
 <!--<span th:include="fragments/scripts-bundle"></span>-->
 
 </body>

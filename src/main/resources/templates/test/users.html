@@ -1,0 +1,11 @@
+<div>
+    <table th:each="user : ${users}">
+        <tr>
+            <th th:text="${user.id}"></th>
+        </tr>
+        <tr>
+            <td><a href="#" th:text="${user.getFirstName()}"></a></td>
+            <td th:text="${user.getLastName()}"></td>
+        </tr>
+    </table>
+</div>
