@@ -1,0 +1,10 @@
+<main>
+    <div class="container">
+        <div class="well">
+            <legend class="text-center">My profile</legend>
+            <div th:text="${user.getFirstName()}"></div>
+            <div th:text="${user.getLastName()}"></div>
+            <div th:text="${user.getEmail()}"></div>
+        </div>
+    </div>
+</main>

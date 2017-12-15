@@ -1,7 +1,12 @@
 package com.example.website;
 
+import com.example.website.models.entities.User;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,18 +22,13 @@ import java.sql.SQLException;
 @SpringBootApplication
 public class DemoApplication {
 
-	public static void main(String[] args) throws URISyntaxException, SQLException {
-//		getConnection();
-		SpringApplication.run(DemoApplication.class, args);
-	}
+    public static void main(String[] args) throws URISyntaxException, SQLException {
+        SpringApplication.run(DemoApplication.class, args);
+    }
 
-	private static Connection getConnection() throws URISyntaxException, SQLException {
-		URI dbUri = new URI(System.getenv("DATABASE_URL"));
 
-		String username = dbUri.getUserInfo().split(":")[0];
-		String password = dbUri.getUserInfo().split(":")[1];
-		String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
-
-		return DriverManager.getConnection(dbUrl, username, password);
-	}
+    @Bean
+    public java.lang.String String() {
+        return new String();
+    }
 }
