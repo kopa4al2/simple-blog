@@ -1,0 +1,19 @@
+<div class="container body-content span=8 offset=2">
+    <div class="row well">
+        <div class="text-center page-header">
+            <strong><h1 class="post_title" th:text="${post.getTitle()}"></h1></strong>
+        </div>
+        <div class="post_content text-center">
+            <div th:text="${post.getContent()}"></div>
+            <div th:switch="${post.isLikedBy(session.loggedUser)}">
+                <a th:case="false" th:href="@{/post_like/{id}(id=${post.getId()})}" class="btn btn-success pull-right">Like<span
+                        class="glyphicon glyphicon-heart-empty"></span></a>
+                <a th:case="true" th:href="@{/post_unlike/{id}(id=${post.getId()})}" class="btn btn-success pull-right">Unlike<span
+                        class="glyphicon glyphicon-heart"></span></a>
+            </div>
+            <a class="btn btn-danger pull-right" sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/content/delete/{id}(id=${post.getId()})}">DELETE</a>
+        </div>
+        <div th:include="fragments/create_comment"></div>
+        <div th:include="fragments/comments_section"></div>
+    </div>
+</div>

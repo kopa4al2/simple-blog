@@ -1,4 +1,4 @@
-package com.example.website.services;
+package com.example.website.services.services;
 
 import com.example.website.models.entities.User;
 
@@ -11,4 +11,10 @@ public interface UserService {
     void save(User u);
 
     User findByEmail(String username);
+
+    User findById(Integer id);
+
+    void deleteUser(Integer user);
+
+    int count();
 }

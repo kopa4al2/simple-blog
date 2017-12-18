@@ -1,10 +1,12 @@
 package com.example.website.controllers;
 
 import com.example.website.models.bindingModels.UserDto;
+import com.example.website.models.entities.Content;
 import com.example.website.models.entities.Role;
 import com.example.website.models.entities.User;
-import com.example.website.services.RoleService;
-import com.example.website.services.UserService;
+import com.example.website.services.services.ContentService;
+import com.example.website.services.services.RoleService;
+import com.example.website.services.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -20,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.ServletException;
@@ -32,11 +35,13 @@ public class UserController {
 
     private UserService userService;
     private RoleService roleService;
+    private ContentService contentService;
 
     @Autowired
-    public UserController(UserService userService, RoleService roleService) {
+    public UserController(UserService userService, RoleService roleService, ContentService contentService) {
         this.userService = userService;
         this.roleService = roleService;
+        this.contentService = contentService;
     }
 
     @PostMapping("/register")
@@ -50,10 +55,16 @@ public class UserController {
             u.setPassword(encoder.encode(userDto.getPassword()));
             u.setFirstName(userDto.getFirstName());
             u.setLastName(userDto.getLastName());
-            Role defaultUserRole = this.roleService.findByName("ROLE_USER");
+            Role defaultUserRole;
+            int c = this.userService.count();
+            if (this.userService.count() > 0)
+                defaultUserRole = this.roleService.findByName("ROLE_USER");
+            else
+                defaultUserRole = this.roleService.findByName("ROLE_ADMIN");
             u.getRoles().add(defaultUserRole);
             try {
                 this.userService.save(u);
+                this.roleService.save(defaultUserRole);
             } catch (ConstraintViolationException e) {
                 return e.getMessage();
             }
@@ -102,5 +113,34 @@ public class UserController {
         model.addAttribute("view", "users/profile");
         model.addAttribute("user", u);
         return "layout";
+    }
+
+    @GetMapping("/post_like/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public String likeContent(@PathVariable Integer id) {
+        Content content = this.contentService.findById(id);
+        User currentUser = this.getLoggedInUser();
+        content.getLikedBy().add(currentUser);
+        currentUser.getLikes().add(content);
+        this.userService.save(currentUser);
+        this.contentService.save(content);
+        return "redirect:/post/{id}";
+    }
+
+    @GetMapping("/post_unlike/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public String unlikeContent(@PathVariable Integer id) {
+        Content content = this.contentService.findById(id);
+        User currentUser = this.getLoggedInUser();
+        content.getLikedBy().remove(currentUser);
+        currentUser.getLikes().remove(content);
+        this.userService.save(currentUser);
+        this.contentService.save(content);
+        return "redirect:/post/{id}";
+    }
+
+    private User getLoggedInUser() {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return this.userService.findByEmail(userDetails.getUsername());
     }
 }

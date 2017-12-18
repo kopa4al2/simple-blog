@@ -1,0 +1,26 @@
+<main>
+    <div class="container">
+        <div class="well">
+            <p>Email:</p>
+            <div th:each="user : ${users}">
+                <div class="row">
+                    <a class="col-sm-6" th:text="${user.getEmail()}"
+                       th:href="@{/user/info/{id}(id=${user.getId()})}"></a>
+                    <a class="btn btn-danger pull-right" th:href="@{/user/delete/{id}(id=${user.getId()})}">Delete</a>
+                    <div th:switch="${user.isAdmin()}">
+                        <div th:case="true">
+                            <a class="btn btn-primary pull-right"
+                               th:href="@{/user/unmake_admin/{id}(id=${user.getId()})}">
+                                Unmake Admin</a>
+                        </div>
+                        <div th:case="false">
+                            <a class="btn btn-primary pull-right"
+                               th:href="@{/user/make_admin/{id}(id=${user.getId()})}">
+                                Make Admin</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

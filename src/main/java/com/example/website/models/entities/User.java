@@ -1,11 +1,8 @@
 package com.example.website.models.entities;
 
-import org.hibernate.validator.constraints.Length;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,10 +37,24 @@ public class User {
     @JoinTable(name = "user_roles")
     private Set<Role> roles;
 
-    @OneToMany
+    @ManyToMany(mappedBy = "likedBy")
     private Set<Content> likes;
 
+    @OneToMany(targetEntity = Content.class)
+    private Set<Content> content;
+
     public User() {
+    }
+
+    public boolean isAdmin() {
+        Role r = new Role();
+        r.setName("ROLE_ADMIN");
+        return this.getRoles().contains(r);
+    }
+
+
+    public String getFullName() {
+        return this.getFirstName() + " " + this.getLastName();
     }
 
     public Integer getId() {
@@ -93,12 +104,37 @@ public class User {
     }
 
     public Set<Content> getLikes() {
-        if(this.likes == null)
+        if (this.likes == null)
             return new HashSet<>();
         return this.likes;
     }
 
     public void setLikes(Set<Content> likes) {
         this.likes = likes;
+    }
+
+    public Set<Content> getContent() {
+        if (this.content == null)
+            return new HashSet<>();
+        return this.content;
+    }
+
+    public void setContent(Set<Content> content) {
+        this.content = content;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        return id.equals(user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 }

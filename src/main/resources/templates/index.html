@@ -1,7 +1,23 @@
-<main>
-    <div class="row text-center">
-        <div class="col-lg-10">
+<main xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="text-center container">
+        <div class="col-lg-12">
             <strong>Welcome to my website please enjoy your stay</strong>
+            <th:block th:each="post : ${posts}">
+                <div class="containe">
+                    <div class="col-lg-5 post_summary_container">
+                        <h2 th:text="${post.getTitle()}"></h2>
+                        <p th:text="${post.getSummary()}"></p>
+                        <small class="author" th:text="${post.getWroteBy().getFullName()}"></small>
+                        <small class="date-cell" th:text="${post.getCreationDate()}"></small>
+                        <footer>
+                            <div class="pull-right">
+                                <a class="btn btn-primary btn-md"
+                                   th:href="@{/post/{id}(id=${post.getId()})}">Read more &raquo;</a>
+                            </div>
+                        </footer>
+                    </div>
+                </div>
+            </th:block>
         </div>
     </div>
 </main>

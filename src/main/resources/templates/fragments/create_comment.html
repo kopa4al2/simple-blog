@@ -1,0 +1,10 @@
+<div class="col-md-6">
+    <div class="widget-area no-padding blank">
+        <div class="status-upload">
+            <form th:method="post" th:action="@{/create_comment/{id}(id=${post.getId()})}">
+                <textarea name="content"></textarea>
+                <button type="submit" class="btn btn-success green">Comment</button>
+            </form>
+        </div><!-- Status Upload  -->
+    </div><!-- Widget Area -->
+</div>

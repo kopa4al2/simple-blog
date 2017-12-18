@@ -1,0 +1,38 @@
+<div class="comment-container">
+    <h4>
+        <legend>
+            Comments:
+        </legend>
+    </h4>
+    <div th:each="comment : ${post.getComments()}">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="comments-list">
+                    <div class="media">
+                        <p class="pull-right">
+                            <small th:text="${comment.getCreationDate()}"></small>
+                        </p>
+                        <!--USER IMAGE TODO:-->
+                        <!--<a class="media-left" href="#">-->
+                            <!--<img src="http://lorempixel.com/40/40/people/1/"/>-->
+                        <!--</a>-->
+                        <div class="media-body">
+
+                            <h4 th:text="${comment.getWroteBy().getFullName()}"
+                                class="media-heading user_name">
+
+                            </h4>
+                            <div class="comment-content" th:text="${comment.getContent()}">
+
+                            </div>
+                            <p>
+                                <small><a th:href="@{/like_comment/{id}(id=${comment.getId()})}">Like</a>
+                                </small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
