@@ -58,7 +58,8 @@ For the sake of consistency i use these project-level naming conventions: <br>
     * **html data-attribute**: all-lowercase-divided-by-hyphen
 2. Back end
     * **Same as in the company**
-##**Code styling conventions**
+    <br>
+## **Code styling conventions**
 1. Front end
     * Braces: [google's convention](https://google.github.io/styleguide/jsguide.html#formatting-braces-all)
         * Always use braces
